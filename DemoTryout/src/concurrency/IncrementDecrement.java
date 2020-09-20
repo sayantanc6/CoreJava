@@ -1,12 +1,12 @@
-package thread;
+package concurrency;
 
 
-public class Multithread {
+public class IncrementDecrement{
 	Integer counter = 1;
 	Thread  t1;
 	Thread t2;
-	  void dosomething() {
-		Runnable increment = () -> {
+	  void incrmntdecrmnt() {
+		Thread increment = new Thread(() -> {
 			while (true) {
 				synchronized (this) {
 					while (this.counter == 1) {
@@ -21,9 +21,9 @@ public class Multithread {
 					this.notify();
 				}
 			}
-		}; 
+		});
 		
-		Runnable decrement = () -> {
+		Thread decrement = new Thread(() -> {
 			while (true) {
 				synchronized (this) {
 					while (this.counter == 0) {
@@ -38,11 +38,9 @@ public class Multithread {
 					this.notify();
 				}
 			}
-		};
-		 t1 = new Thread(increment);
-		 t2 = new Thread(decrement);
-		t1.start();
-		t2.start();
+		});
+		increment.start();
+		decrement.start();
 		
 	}
 
