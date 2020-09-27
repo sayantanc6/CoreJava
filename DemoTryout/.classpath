@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-13">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="D:/softwares/library/commons-beanutils-1.9.4.jar"/>
+	<classpathentry kind="lib" path="D:/softwares/library/dozer-5.5.1.jar" sourcepath="C:/Users/uset/.m2/repository/net/sf/dozer/dozer/5.5.1/dozer-5.5.1-sources.jar"/>
+	<classpathentry kind="lib" path="D:/softwares/library/slf4j-api-2.0.0-alpha1.jar"/>
+	<classpathentry kind="lib" path="D:/softwares/library/slf4j-log4j12-2.0.0-alpha1.jar"/>
+	<classpathentry kind="lib" path="D:/softwares/library/reflections-0.9.10.jar"/>
+	<classpathentry kind="lib" path="D:/softwares/library/spring-core-2.5.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
