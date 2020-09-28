@@ -28,6 +28,7 @@ public class AppConfiguration {
 	 * https://www.baeldung.com/spring-events
 	 * https://www.baeldung.com/registration-with-spring-mvc-and-spring-security
 	 * https://github.com/Baeldung/spring-security-registration/blob/master/src/main/java/com/baeldung/web/controller/RegistrationController.java
+	 * https://www.baeldung.com/spring-security-block-brute-force-authentication-attempts
 	 * */
 	
 	@Bean
