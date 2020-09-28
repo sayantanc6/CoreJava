@@ -1,4 +1,4 @@
-package withoutsso.config;
+package com.example.demo;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -30,12 +30,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private AuthenticationSuccessHandlerImpl successHandler;
+     
+    @Autowired
+    private MyLogoutSuccessHandler logoutSuccessHandler;
     
     @Autowired
     AuthenticationSuccessHandler handler;
     
     @Autowired
 	public DataSource dataSource;
+    
+    @Autowired
+    private CustomAuthenticationFailureHandler authenticationFailureHandler;
     
     @PostConstruct
     public void completeSetup() {
@@ -84,10 +90,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .defaultSuccessUrl("/homepage.html", true)
         .successHandler(handler) //  to determine the URL to redirect the user to after login based on the role of the user.
         .permitAll()
-        .successHandler(successHandler) 
+        .successHandler(successHandler)
+        .failureHandler(authenticationFailureHandler) 
         .failureUrl("/login.html?error=true")
         .and()
-        .logout().logoutSuccessUrl("/afterlogout.html").deleteCookies("JSESSIONID") 
+        .logout()
+        .logoutSuccessHandler(logoutSuccessHandler)
+        .logoutSuccessUrl("/afterlogout.html").deleteCookies("JSESSIONID") 
         .and()
         .rememberMe().rememberMeParameter("remember-me-new").key("uniqueAndSecret").tokenValiditySeconds(86400) // 1
         .and()
