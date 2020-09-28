@@ -2,38 +2,51 @@ package inheritancemapping;
 
 import java.lang.reflect.Field;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.util.ReflectionUtils.FieldCallback;
+
 public class ModelMapper {
 	
-	public Object withoutModelMapper(Object sub,Object sup,Object mapped)  throws InstantiationException,IllegalAccessException{
-		Field[] mapFields = mapped.getClass().getDeclaredFields();
-		Field[] subFields = sub.getClass().getDeclaredFields();
-		Field[] supFields = sup.getClass().getDeclaredFields(); 
-
-		for (int i = 0; i < subFields.length; i++) {
-			Field subfield = subFields[i];
-			subfield.setAccessible(true); 
-			System.out.println(subfield.getName());
-			for (int j = 0; j < mapFields.length; j++) {
-				Field mapfield = mapFields[j];
-				mapfield.setAccessible(true); 
-				 if (subfield.getName() == mapfield.getName()) {
-					 mapfield.set(mapped, subfield.get(sub)); 
+	public Object inheritanceToObject(Object baseObject,Object mappedObject) {
+		Field[] mappedFields = mappedObject.getClass().getDeclaredFields();
+		
+		ReflectionUtils.doWithFields(baseObject.getClass(), 
+				new FieldCallback() {
+					
+					@Override
+					public void doWith(Field baseField) throws IllegalArgumentException, IllegalAccessException {
+						baseField.setAccessible(true); 
+						for (Field mapfield : mappedFields) {
+							mapfield.setAccessible(true); 
+							 if (mapfield.getName() == baseField.getName()) {
+								mapfield.set(mappedObject, baseField.get(baseObject)); 
+							}
+						}
+					}
+					
+				});
+		return mappedObject; 
+	}
+	
+	public void objectToInheritence(Object sourceObject,Object baseObject,Object superObject) throws IllegalAccessException,IllegalArgumentException{
+		Field[] sourceFields = sourceObject.getClass().getDeclaredFields();
+		Field[] baseFields = FieldUtils.getAllFields(baseObject.getClass());
+		Field[] superFields = FieldUtils.getAllFields(baseObject.getClass().getSuperclass());		
+		for (Field sourcefield : sourceFields) {
+			sourcefield.setAccessible(true);
+			for (Field basefield : baseFields) {
+				basefield.setAccessible(true);
+				if (basefield.getName() == sourcefield.getName()) {
+					basefield.set(baseObject, sourcefield.get(sourceObject));
 				}
 			}
-		} 
-		
-		for (int i = 0; i < supFields.length; i++) {
-			Field supfield = supFields[i];
-			supfield.setAccessible(true); 
-			 System.out.println(supfield.getName()); 
-			 for (int j = 0; j < mapFields.length; j++) {
-				Field mapfield = mapFields[j];
-				mapfield.setAccessible(true); 
-				if (supfield.getName() == mapfield.getName()) {
-					mapfield.set(mapped, supfield.get(sup)); 
+			for (Field superfield : superFields) {
+				superfield.setAccessible(true);
+				if (superfield.getName() == sourcefield.getName()) {
+					superfield.set(superObject, sourcefield.get(sourceObject));
 				}
 			}
 		}
-		return null;
 	}
 }

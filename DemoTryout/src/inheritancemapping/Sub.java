@@ -5,7 +5,10 @@ public class Sub extends Super {
 	private String firstSubname;
 	private String lastSubname;
 
-	
+	public Sub() {
+		super();
+	}
+
 
 	public Sub(String firstname, String lastname, String firstSubname, String lastSubname) {
 		super(firstname, lastname);
