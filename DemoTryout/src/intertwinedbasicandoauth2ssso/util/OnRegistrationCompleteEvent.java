@@ -3,7 +3,7 @@ package intertwinedbasicandoauth2ssso.util;
 import java.util.Locale;
 
 import org.springframework.context.ApplicationEvent;
-
+ 
 @SuppressWarnings("serial")
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
 

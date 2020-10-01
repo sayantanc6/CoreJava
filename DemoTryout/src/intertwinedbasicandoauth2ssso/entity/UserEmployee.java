@@ -14,7 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
+@Entity 
 @Table(name = "EMPLOYEE")
 public class UserEmployee {
 

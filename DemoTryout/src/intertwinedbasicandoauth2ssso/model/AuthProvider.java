@@ -1,6 +1,6 @@
 package intertwinedbasicandoauth2ssso.model;
 
-public enum AuthProvider {
+public enum AuthProvider { 
 	local,
     facebook,
     google,

@@ -29,7 +29,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.context.WebApplicationContext;
 
-@Configuration
+@Configuration 
 @PropertySource("application-oauth2.properties")
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -158,7 +158,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		 * MigrateSession() is to specify that a new session should be created and the session attributes from the original HttpSession should be retained.
 		 * */
 	}
-	@Bean(BeanIds.AUTHENTICATION_MANAGER)
+	@Bean(BeanIds.AUTHENTICATION_MANAGER) 
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();

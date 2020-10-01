@@ -1,6 +1,6 @@
 package intertwinedbasicandoauth2ssso.config;
 
-import org.dozer.DozerBeanMapper;
+import org.dozer.DozerBeanMapper; 
 import org.dozer.loader.api.BeanMappingBuilder;
 import org.dozer.loader.api.TypeMappingOptions;
 import org.springframework.beans.factory.annotation.Autowired;

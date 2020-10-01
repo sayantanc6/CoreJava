@@ -13,7 +13,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.web.servlet.LocaleResolver;
-
+ 
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	
 	@Autowired

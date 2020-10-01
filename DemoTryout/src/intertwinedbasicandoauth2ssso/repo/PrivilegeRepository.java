@@ -7,4 +7,4 @@ import org.springframework.stereotype.Repository;
 public interface PrivilegeRepository extends JpaRepository<Privilege, Long> {
 
     public Privilege findByName(String name);
-}
+} 

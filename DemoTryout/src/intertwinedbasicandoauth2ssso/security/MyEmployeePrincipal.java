@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class MyEmployeePrincipal implements UserDetails {
-	
+	 
 	UserEmployee emp;
 	
 	public MyEmployeePrincipal(UserEmployee empDetails) {

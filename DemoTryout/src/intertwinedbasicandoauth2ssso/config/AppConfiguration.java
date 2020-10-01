@@ -1,4 +1,4 @@
-package intertwinedbasicandoauth2ssso.config;
+package intertwinedbasicandoauth2ssso.config; 
 
 import javax.sql.DataSource;
 

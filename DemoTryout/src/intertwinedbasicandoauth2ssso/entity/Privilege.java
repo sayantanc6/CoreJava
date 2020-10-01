@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-@Entity
+@Entity 
 @Table(name = "EMPLOYEE_PRIVILEGE")
 public class Privilege {
 

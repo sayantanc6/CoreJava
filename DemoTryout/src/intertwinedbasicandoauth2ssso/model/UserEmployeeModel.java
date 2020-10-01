@@ -6,7 +6,7 @@ import java.util.Set;
 import org.dozer.Mapping;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+ 
 public class UserEmployeeModel implements Serializable{
 	
 	private static final long serialVersionUID = 42L;
