@@ -1,4 +1,4 @@
-package com.example.demo;
+package intertwinedbasicandoauth2ssso.config;
 
 import javax.sql.DataSource;
 
@@ -28,6 +28,10 @@ public class AppConfiguration {
 	 * https://www.baeldung.com/spring-events
 	 * https://www.baeldung.com/registration-with-spring-mvc-and-spring-security
 	 * https://github.com/Baeldung/spring-security-registration/blob/master/src/main/java/com/baeldung/web/controller/RegistrationController.java
+	 * https://www.baeldung.com/spring-security-5-oauth2-login
+	 * https://github.com/eugenp/tutorials/tree/master/spring-5-security-oauth
+	 * https://stackoverflow.com/questions/50061662/spring-boot-basic-authentication-and-oauth2-in-same-project
+	 * https://github.com/TwinProduction/spring-security-oauth2-client-example/tree/master/custom-userservice-sample
 	 * */
 	
 	@Bean

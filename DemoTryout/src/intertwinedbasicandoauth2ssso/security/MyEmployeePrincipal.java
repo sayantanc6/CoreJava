@@ -1,4 +1,4 @@
-package withoutsso.security;
+package intertwinedbasicandoauth2ssso.security;
 
 import java.util.ArrayList;
 import java.util.Collection;

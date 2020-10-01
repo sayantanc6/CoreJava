@@ -1,4 +1,4 @@
-package withoutsso.util;
+package intertwinedbasicandoauth2ssso.util;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;

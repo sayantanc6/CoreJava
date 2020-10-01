@@ -1,4 +1,4 @@
-package withoutsso.security;
+package intertwinedbasicandoauth2ssso.security;
 
 import java.io.IOException;
 

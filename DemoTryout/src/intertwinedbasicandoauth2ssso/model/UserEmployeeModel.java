@@ -1,4 +1,4 @@
-package withoutsso.model;
+package intertwinedbasicandoauth2ssso.model;
 
 import java.io.Serializable;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package withoutsso.config;
+package intertwinedbasicandoauth2ssso.config;
 
 import org.dozer.DozerBeanMapper;
 import org.dozer.loader.api.BeanMappingBuilder;

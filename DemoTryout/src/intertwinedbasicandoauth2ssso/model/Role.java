@@ -1,4 +1,4 @@
-package withoutsso.util;
+package intertwinedbasicandoauth2ssso.model;
 
 public enum Role {
 

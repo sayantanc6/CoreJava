@@ -1,4 +1,4 @@
-package com.example.demo;
+package intertwinedbasicandoauth2ssso.config;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -6,8 +6,12 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,10 +20,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.context.WebApplicationContext;
 
 @Configuration
+@PropertySource("application-oauth2.properties")
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
@@ -27,6 +38,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private WebApplicationContext applicationContext;
 	
     private MyEmployeeDetails userDetailsService;
+    
+    @Autowired
+	CustomOauth2UserDetailsService customOauth2userDetailsService;
     
     @Autowired
     private AuthenticationSuccessHandlerImpl successHandler;
@@ -43,6 +57,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomAuthenticationFailureHandler authenticationFailureHandler;
     
+    @Autowired
+	OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+	
+	@Autowired
+	OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    
     @PostConstruct
     public void completeSetup() {
         userDetailsService = applicationContext.getBean(MyEmployeeDetails.class);
@@ -56,12 +76,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .authenticationProvider(authenticationProvider())
         .jdbcAuthentication()
         .dataSource(dataSource)
-        .usersByUsernameQuery("select email,password,enabled "
+        .usersByUsernameQuery("select e.email,e.password,e.enabled "
                 + "from EMPLOYEE e "
-                + "where email = ?")
-            .authoritiesByUsernameQuery("select email,authority "
-                + "from authorities "
-                + "where email = ?");
+                + "where e.email = ?");
 		
 		auth.inMemoryAuthentication()
         .withUser("user1").password("{noop}user1Pass").roles("USER")
@@ -81,7 +98,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		.csrf()
         .disable()
 		.authorizeRequests()
-        .antMatchers("/login")
+        .antMatchers("/login","/oauth_login", "/loginFailure", "/")
         .permitAll()
         .and()
         .formLogin()
@@ -99,6 +116,28 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .logoutSuccessUrl("/afterlogout.html").deleteCookies("JSESSIONID") 
         .and()
         .rememberMe().rememberMeParameter("remember-me-new").key("uniqueAndSecret").tokenValiditySeconds(86400) // 1
+        .and()
+        .oauth2Login()
+        .loginPage("/oauth_login")
+        .authorizationEndpoint()
+        .baseUri("/oauth2/authorize-client")
+        .authorizationRequestRepository(authorizationRequestRepository())
+        .and()
+        .tokenEndpoint()
+        .accessTokenResponseClient(accessTokenResponseClient())
+        .and()
+        .defaultSuccessUrl("/loginSuccess")
+        .failureUrl("/loginFailure")
+        .and()
+        .oauth2Login()
+        .redirectionEndpoint()
+            .baseUri("/oauth2/callback/*")
+            .and()
+        .userInfoEndpoint()
+            .userService(customOauth2userDetailsService)
+            .and()
+        .successHandler(oAuth2AuthenticationSuccessHandler)
+        .failureHandler(oAuth2AuthenticationFailureHandler)
         .and()
         .sessionManagement()
         .sessionFixation().migrateSession() // 2
@@ -119,6 +158,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		 * MigrateSession() is to specify that a new session should be created and the session attributes from the original HttpSession should be retained.
 		 * */
 	}
+	@Bean(BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 	
 	 @Bean
 	    public DaoAuthenticationProvider authenticationProvider() {
@@ -130,10 +174,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	 @Bean
 	    public PasswordEncoder encoder() {
-	        return new BCryptPasswordEncoder(11);
+	        return new BCryptPasswordEncoder(); 
 	    }
 	 
-	 
+	 @Bean
+	    public AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository() {
+	        return new HttpSessionOAuth2AuthorizationRequestRepository();
+	    }
+
+	    @Bean
+	    public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient() {
+	        DefaultAuthorizationCodeTokenResponseClient accessTokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();
+	        return accessTokenResponseClient;
+	    }
 	 
 	 @Bean
 	    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {

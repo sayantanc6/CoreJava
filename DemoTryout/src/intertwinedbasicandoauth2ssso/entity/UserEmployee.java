@@ -1,4 +1,4 @@
-package withoutsso.entity;
+package intertwinedbasicandoauth2ssso.entity;
 
 import java.util.Set;
 
@@ -34,6 +34,8 @@ public class UserEmployee {
 	    @ManyToOne(fetch = FetchType.EAGER)
 	    @JoinColumn(name = "organization_id", referencedColumnName = "id")
 	    private Organization organization;
+	    
+	    private String email;
 
 		public Long getId() {
 			return id;
@@ -73,5 +75,13 @@ public class UserEmployee {
 
 		public void setOrganization(Organization organization) {
 			this.organization = organization;
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
 		}
 }

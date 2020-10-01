@@ -1,4 +1,4 @@
-package withoutsso.util;
+package intertwinedbasicandoauth2ssso.util;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;

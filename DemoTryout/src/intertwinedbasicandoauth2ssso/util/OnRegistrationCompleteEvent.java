@@ -1,4 +1,4 @@
-package withoutsso.util;
+package intertwinedbasicandoauth2ssso.util;
 
 import java.util.Locale;
 
