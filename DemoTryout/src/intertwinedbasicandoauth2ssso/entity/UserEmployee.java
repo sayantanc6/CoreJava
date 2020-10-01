@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +16,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
+import com.sun.istack.NotNull;
+
+@Entity 
 @Table(name = "EMPLOYEE")
 public class UserEmployee {
 
@@ -36,6 +40,16 @@ public class UserEmployee {
 	    private Organization organization;
 	    
 	    private String email;
+	    
+	    private String imageUrl;
+
+	    private String providerId;
+	    
+	    private boolean enabled;
+
+	    @NotNull
+	    @Enumerated(EnumType.STRING)
+	    private AuthProvider provider;
 
 		public Long getId() {
 			return id;
@@ -83,5 +97,37 @@ public class UserEmployee {
 
 		public void setEmail(String email) {
 			this.email = email;
+		}
+
+		public String getImageUrl() {
+			return imageUrl;
+		}
+
+		public void setImageUrl(String imageUrl) {
+			this.imageUrl = imageUrl;
+		}
+
+		public String getProviderId() {
+			return providerId;
+		}
+
+		public void setProviderId(String providerId) {
+			this.providerId = providerId;
+		}
+
+		public boolean isEnabled() {
+			return enabled;
+		}
+
+		public void setEnabled(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		public AuthProvider getProvider() {
+			return provider;
+		}
+
+		public void setProvider(AuthProvider provider) {
+			this.provider = provider;
 		}
 }
