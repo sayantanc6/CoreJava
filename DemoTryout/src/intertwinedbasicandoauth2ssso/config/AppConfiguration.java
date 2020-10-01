@@ -32,7 +32,8 @@ public class AppConfiguration {
 	 * https://github.com/eugenp/tutorials/tree/master/spring-5-security-oauth
 	 * https://stackoverflow.com/questions/50061662/spring-boot-basic-authentication-and-oauth2-in-same-project
 	 * https://github.com/TwinProduction/spring-security-oauth2-client-example/tree/master/custom-userservice-sample
-	 * */
+	 * https://github.com/callicoder/spring-boot-react-oauth2-social-login-demo
+         * */
 	
 	@Bean
 	public DozerBeanMapper  mapper() {
