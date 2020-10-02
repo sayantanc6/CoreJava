@@ -3,6 +3,7 @@ package intertwinedbasicandoauth2ssso.config;
 import javax.sql.DataSource;
 
 import org.dozer.DozerBeanMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ApplicationEventMulticaster;
@@ -33,7 +34,19 @@ public class AppConfiguration {
 	 * https://stackoverflow.com/questions/50061662/spring-boot-basic-authentication-and-oauth2-in-same-project
 	 * https://github.com/TwinProduction/spring-security-oauth2-client-example/tree/master/custom-userservice-sample
 	 * https://github.com/callicoder/spring-boot-react-oauth2-social-login-demo
-         * */
+	 * */
+	
+	@Value("${spring.datasource.driver-class-name}")
+	private String dsdriverclass;
+	
+	@Value("${spring.datasource.username}")
+	private String dsusername;
+	
+	@Value("${spring.datasource.url}")
+	private String dsurl;
+	
+	@Value("${spring.datasource.password}")
+	private String dspwd;
 	
 	@Bean
 	public DozerBeanMapper  mapper() {
@@ -44,10 +57,10 @@ public class AppConfiguration {
 	public DataSource dataSource()
 	{
 		DriverManagerDataSource dataSource =  new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/mydb");
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
+		dataSource.setDriverClassName(dsdriverclass);
+		dataSource.setUrl(dsurl);
+		dataSource.setUsername(dsusername);
+		dataSource.setPassword(dspwd);
 		return dataSource;
 	}
 	
