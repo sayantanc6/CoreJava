@@ -11,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,7 +29,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.web.context.WebApplicationContext;
 
 @Configuration
-@PropertySource("application-oauth2.properties")
+@PropertySource("application.properties")
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
@@ -39,8 +38,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
     private MyEmployeeDetails userDetailsService;
     
-    @Autowired
-	CustomOauth2UserDetailsService customOauth2userDetailsService;
+
     
     @Autowired
     private AuthenticationSuccessHandlerImpl successHandler;
@@ -134,7 +132,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .baseUri("/oauth2/callback/*")
             .and()
         .userInfoEndpoint()
-            .userService(customOauth2userDetailsService)
+            .userService(userDetailsService)
             .and()
         .successHandler(oAuth2AuthenticationSuccessHandler)
         .failureHandler(oAuth2AuthenticationFailureHandler)
@@ -194,3 +192,4 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	    }
 
 }
+
