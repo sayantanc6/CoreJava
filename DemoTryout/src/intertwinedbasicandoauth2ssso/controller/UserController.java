@@ -165,7 +165,7 @@ public class UserController {
 	    		.stream().map(user -> user.getUsername()).collect(Collectors.toList());
 	}
 	
-	@PreAuthorize("#username != authentication.principal.username")
+	@PreAuthorize("isMember(#username)") 
 	@PostMapping(value = "/sinup/{username}",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE,headers = "Accept=application/json")
 	public void signup(@RequestBody UserEmployeeModel model,HttpServletRequest request, @PathVariable("username") String username) {
         final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
