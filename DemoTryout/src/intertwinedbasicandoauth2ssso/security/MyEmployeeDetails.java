@@ -1,4 +1,4 @@
-package intertwinedbasicandoauth2ssso.security;
+package com.example.demo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +26,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
- 
+
 @Service
 public class MyEmployeeDetails extends DefaultOAuth2UserService implements UserDetailsService {
 	
@@ -58,6 +58,15 @@ public class MyEmployeeDetails extends DefaultOAuth2UserService implements UserD
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2User oAuthuser = super.loadUser(userRequest);
 		Map<String, Object> attributes = oAuthuser.getAttributes();
+		UserEmployee employee = new UserEmployee();
+		if (userRequest.getClientRegistration().getRegistrationId().equalsIgnoreCase(AuthProvider.google.toString())) {
+			employee.setId((Long)attributes.get("sub"));
+		}
+		employee.setId((Long)attributes.get("id")); 
+		employee.setEmail((String)attributes.get("email"));
+		employee.setUsername((String)attributes.get("name")); 
+		employee.setProviderID(userRequest.getClientRegistration().getRegistrationId()); 
+		userRepo.save(employee);
 		Set<GrantedAuthority> authorities = new HashSet<>(oAuthuser.getAuthorities()); 
 		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 		return new DefaultOAuth2User(authorities, attributes, userNameAttributeName);
