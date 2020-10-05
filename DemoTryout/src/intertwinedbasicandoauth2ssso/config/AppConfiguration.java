@@ -49,6 +49,8 @@ public class AppConfiguration {
 	 * https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-boot-1/src/main/java/com/baeldung/roles/custom/security
 	 * https://www.baeldung.com/spring-security-create-new-custom-security-expression
 	 * https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-boot-1/src/main/java/com/baeldung/roles/custom/security
+	 * https://github.com/eugenp/tutorials/blob/master/spring-security-modules/spring-security-web-boot-2/src/main/java/com/baeldung/multipleentrypoints/MultipleEntryPointsSecurityConfig.java
+	 * https://grobmeier.solutions/spring-security-5-jwt-basic-auth.html
 	 * */
 
 	
