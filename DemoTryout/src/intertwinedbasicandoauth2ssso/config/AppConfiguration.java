@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import com.example.demo.MethodSecurityConfig;
 import com.example.demo.SpringSecurityConfig;
 
-
+ 
 @Configuration
 @Import({MethodSecurityConfig.class,SpringSecurityConfig.class})
 public class AppConfiguration {

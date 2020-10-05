@@ -29,7 +29,7 @@ import io.jsonwebtoken.Jwts;
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 	@Value("${jwt.secret}")
-    private String jwtSecret;
+    private String jwtSecret; 
 	
     @Value("${jwt.issuer}")
     private String jwtIssuer;
