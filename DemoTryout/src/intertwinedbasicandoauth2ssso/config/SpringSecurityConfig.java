@@ -1,5 +1,7 @@
 package intertwinedbasicandoauth2ssso.config;
 
+package com.example.demo;
+
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
@@ -26,7 +28,11 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.context.WebApplicationContext;
 
 @Configuration
@@ -69,7 +75,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.inMemoryAuthentication()
         .withUser("user1").password("{noop}user1Pass").roles("USER")
         .and()
-        .withUser("admin1").password("{noop}admin1Pass").roles("ADMIN");
+        .withUser("admin1").password("{noop}admin1Pass").roles("ADMIN")
+	.and()
+        .withUser("anon1").password("{noop}anon1Pass").roles("ANON")
+        .and()
+        .withUser("guest1").password("{noop}guest1Pass").roles("GUEST");
 	}
 
 	@Override
@@ -79,7 +89,28 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Configuration
-	@Order(1)
+    @Order(1)
+    public static class BasicAuthConfigurationAdapter extends SpringSecurityConfig {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+        	
+            http.antMatcher("/admin/**")
+                .authorizeRequests().anyRequest().hasRole("ADMIN")
+                .and().httpBasic().authenticationEntryPoint(authenticationEntryPoint())    
+                .and().exceptionHandling().accessDeniedPage("/403");
+        }
+        
+        @Bean
+        public AuthenticationEntryPoint authenticationEntryPoint(){
+            BasicAuthenticationEntryPoint entryPoint = new  BasicAuthenticationEntryPoint();
+            entryPoint.setRealmName("admin realm");
+            return entryPoint;
+        }
+    }
+	
+	@Configuration
+	@Order(2)
     public static class FormLoginConfigurationAdapter extends SpringSecurityConfig {
 		
 		@Autowired
@@ -93,7 +124,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.csrf().disable().authorizeRequests().anyRequest().hasRole("ADMIN")
+			http.csrf().disable().authorizeRequests().anyRequest().hasRole("USER")
 			.antMatchers("/login", "/").permitAll()
 	        .and()
 	        .formLogin().loginPage("/login.html").loginProcessingUrl("/login").defaultSuccessUrl("/homepage.html", true)
@@ -101,6 +132,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .and()
 	        .logout().logoutSuccessUrl("/afterlogout.html").logoutSuccessHandler(logoutSuccessHandler).deleteCookies("JSESSIONID")
 	        .and()
+	        .exceptionHandling().defaultAuthenticationEntryPointFor(loginUrlauthenticationEntryPointWithWarning(),  new AntPathRequestMatcher("/user/private/**"))
+            .defaultAuthenticationEntryPointFor(loginUrlauthenticationEntryPoint(), new AntPathRequestMatcher("/user/general/**"))
+            .accessDeniedPage("/403")
+            .and()
 	        .rememberMe().rememberMeParameter("remember-me-new").key("uniqueAndSecret").tokenValiditySeconds(86400) //1
 	        .and()
 	        .sessionManagement().sessionFixation().migrateSession().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).invalidSessionUrl("/invalidSession.html") //2
@@ -117,6 +152,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			 * MigrateSession() is to specify that a new session should be created and the session attributes from the original HttpSession should be retained.
 			 * */
 		}
+		
+		@Bean
+        public AuthenticationEntryPoint loginUrlauthenticationEntryPoint(){
+            return new LoginUrlAuthenticationEntryPoint("/userLogin");
+        }
+        
+        @Bean
+        public AuthenticationEntryPoint loginUrlauthenticationEntryPointWithWarning(){
+            return new LoginUrlAuthenticationEntryPoint("/userLoginWithWarning");
+        }
     } 
     
 	@Configuration
@@ -156,7 +201,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	        return accessTokenResponseClient;
 	    }
     }
-    
+
+	@Configuration
+    @Order(4)
+    public static class NoAuthConfigurationAdapter extends SpringSecurityConfig {
+
+        protected void configure(HttpSecurity http) throws Exception {
+            http.antMatcher("/anon/**").authorizeRequests().anyRequest().hasRole("ANON").antMatchers("/").permitAll();
+        }
+    }
+	
 	@Bean
     public DaoAuthenticationProvider authenticationProvider() {
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
