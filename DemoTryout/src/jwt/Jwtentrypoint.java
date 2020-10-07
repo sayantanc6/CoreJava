@@ -2,7 +2,7 @@ package jwt;
 
 import io.jsonwebtoken.SignatureException;
 
-public class Jwtentrypoint {
+public class Jwtentrypoint { 
 	
 	/*
 	 * source of information :-
