@@ -11,7 +11,7 @@ import io.jsonwebtoken.SignatureException;
 public class JwtBuildAndVerify {
 	
 	String jwt = "";
- 
+  
 	public JwtBuildAndVerify() {
 		super();
 	}
