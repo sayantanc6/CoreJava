@@ -1,5 +1,6 @@
 package intertwinedbasicandoauth2ssso.controller;
 
+
 import java.net.URI;
 import java.security.Principal;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.ResolvableType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -27,15 +29,19 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.ui.Model;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
- 
+
 @RestController
 public class UserController {
 	
@@ -79,8 +85,8 @@ public class UserController {
     }
     
     @PostMapping("/signup")
-    public void registerUser(@Valid @RequestBody EmployeeModel model) throws BadRequestException{
-        if(repo.existsByEmail(model.getEmail())) {
+    public void registerUser(@Valid @RequestBody UserEmployeeModel model) throws BadRequestException{
+        if(repo.existsByEmail(model.getEmail())) {  
             throw new BadRequestException("Email address already in use.");
         }
 
@@ -93,8 +99,19 @@ public class UserController {
                 .buildAndExpand(result.getId()).toUri();
         
         System.out.println(location);
-
     }
+    
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> addCustExceptions(MethodArgumentNotValidException ex){
+		Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
+	}
 
 	@Secured({ "ROLE_USER", "ROLE_ADMIN","ROLE_VIEWER" })
 	@GetMapping("/principal")
