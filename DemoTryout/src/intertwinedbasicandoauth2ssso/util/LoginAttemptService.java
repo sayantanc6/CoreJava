@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
- 
+
 @Service
 public class LoginAttemptService {
 
 	private final int MAX_ATTEMPT = 10;
-    private LoadingCache<String, Integer> attemptsCache;
- 
+    public LoadingCache<String, Integer> attemptsCache;
+    public String key;
     public LoginAttemptService() {
         super();
         attemptsCache = CacheBuilder.newBuilder().
@@ -29,14 +29,15 @@ public class LoginAttemptService {
         attemptsCache.invalidate(key);
     }
  
-    public void loginFailed(String key) {
-        int attempts = 0;
-        try {
-            attempts = attemptsCache.get(key);
-        } catch (ExecutionException e) {
-            attempts = 0;
-        }
-        attempts++;
+    public void loginFailed(String key) throws ExecutionException{
+    	this.key = key;
+//        int attempts = 0;
+//        try {
+          int  attempts = attemptsCache.get(key);
+//        } catch (ExecutionException e) {
+//            attempts = 0;
+//        }
+//        attempts++;
         attemptsCache.put(key, attempts);
     }
  
