@@ -33,6 +33,13 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.context.WebApplicationContext;
+
+import intertwinedbasicandoauth2ssso.security.CustomAuthenticationFailureHandler;
+import intertwinedbasicandoauth2ssso.security.JwtAuthenticationFilter;
+import intertwinedbasicandoauth2ssso.security.MyEmployeeDetails;
+import intertwinedbasicandoauth2ssso.security.MyLogoutSuccessHandler;
+import intertwinedbasicandoauth2ssso.util.OAuth2AuthenticationFailureHandler;
+import intertwinedbasicandoauth2ssso.util.OAuth2AuthenticationSuccessHandler;
  
 @Configuration
 @PropertySource("application.properties")
