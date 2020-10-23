@@ -24,12 +24,6 @@ public class frequencyDemoInteger {
 			}
 		}
 		System.out.println(result); 
-//		System.out.println("duplicate occurences are :-");
-//		myMap.entrySet().forEach(entry -> {
-//			if (entry.getValue() == 2) {
-//				System.out.print(entry.getKey().toString()+" "); 
-//			}
-//		});
 	}
 
 }
