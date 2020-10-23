@@ -7,7 +7,7 @@ public class frequencyDemoInteger {
 
 	public static void main(String[] args) {
 		
-		int[] s1 = {9,3,9,3,9,7};
+		int[] s1 = {9,3,9,3,9,7,9};
 		int result = 0;
 		Map<Integer, Integer> myMap = new HashMap<Integer, Integer>();
 		for (int element : s1) {  
@@ -19,17 +19,11 @@ public class frequencyDemoInteger {
 		}
 		System.out.println(myMap); 
 		for (Map.Entry<Integer, Integer> entry : myMap.entrySet()) {
-			 if (entry.getValue() == 1) {
+			 if (entry.getValue()%2 != 0) {
 				 result = entry.getKey();
 			}
 		}
 		System.out.println(result); 
-//		System.out.println("duplicate occurences are :-");
-//		myMap.entrySet().forEach(entry -> {
-//			if (entry.getValue() == 2) {
-//				System.out.print(entry.getKey().toString()+" "); 
-//			}
-//		});
 	}
 
 }
