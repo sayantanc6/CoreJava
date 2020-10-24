@@ -3,7 +3,7 @@ package codility;
 import java.util.Arrays;
 
 
-public class SmallestPositiveInteger {
+public class MissingInteger {
 
 	public static void main(String[] args) {
 		int[] a = {-3,-2,0,1,1,5,3,4};
