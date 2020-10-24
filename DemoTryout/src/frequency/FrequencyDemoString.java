@@ -3,9 +3,8 @@ package frequency;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class frequencyDemo {
-
+public class FrequencyDemoString {
+	
 	public static void main(String[] args) {
 		
 		String s1 = "irresponsible";

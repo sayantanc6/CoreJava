@@ -2,8 +2,11 @@ package com.example.demo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import org.dozer.DozerBeanMapper;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -11,17 +14,16 @@ import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.demo.MethodSecurityConfig;
-import com.example.demo.SpringSecurityConfig;
 
- 
 @Configuration
 @Import({MethodSecurityConfig.class,SpringSecurityConfig.class})
-public class AppConfiguration {
+public class AppConfiguration implements AsyncConfigurer{
 	
 	/*
 	 * source of information :- 
@@ -42,22 +44,25 @@ public class AppConfiguration {
 	 * https://stackoverflow.com/questions/50061662/spring-boot-basic-authentication-and-oauth2-in-same-project
 	 * https://github.com/TwinProduction/spring-security-oauth2-client-example/tree/master/custom-userservice-sample
 	 * https://github.com/callicoder/spring-boot-react-oauth2-social-login-demo
-	 * https://github.com/habuma/facebook-security5/tree/master/src/main/java/sample
-	 * https://www.baeldung.com/spring-rest-template-interceptor
-	 * https://github.com/eugenp/tutorials/tree/master/spring-resttemplate/src/main/java/com/baeldung/sampleapp
-	 * https://www.baeldung.com/spring-security-create-new-custom-security-expression
-	 * https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-boot-1/src/main/java/com/baeldung/roles/custom/security
-	 * https://www.baeldung.com/spring-security-create-new-custom-security-expression
-	 * https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-boot-1/src/main/java/com/baeldung/roles/custom/security
-	 * https://github.com/eugenp/tutorials/blob/master/spring-security-modules/spring-security-web-boot-2/src/main/java/com/baeldung/multipleentrypoints/MultipleEntryPointsSecurityConfig.java
 	 * https://grobmeier.solutions/spring-security-5-jwt-basic-auth.html
+	 * https://github.com/karlkyck/spring-boot-completablefuture
+	 * https://github.com/bytestree/spring-data-jpa-projections
+	 * https://www.bytestree.com/spring/spring-data-jpa-projections-5-ways-return-custom-object/
 	 * */
 
 	
+     static final String TASK_EXECUTOR_REPOSITORY  = "serviceTaskExecutor-";
+    private static final String TASK_EXECUTOR_NAME_PREFIX_REPOSITORY = "serviceTaskExecutor-";
+
 	@Bean
 	public DozerBeanMapper  mapper() {
 		return new DozerBeanMapper();
 	}
+	
+	@Bean(name = TASK_EXECUTOR_REPOSITORY)
+    public Executor getRepositoryAsyncExecutor() {
+        return newTaskExecutor(TASK_EXECUTOR_NAME_PREFIX_REPOSITORY);
+    }
 	
 	@Bean
 	 public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
@@ -84,4 +89,17 @@ public class AppConfiguration {
         return restTemplate;
     }
 	
+	@Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return new SimpleAsyncUncaughtExceptionHandler();
+    }
+	
+	private Executor newTaskExecutor(final String taskExecutorNamePrefix) {
+        final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(50);
+        executor.setQueueCapacity(10000);
+        executor.setThreadNamePrefix(taskExecutorNamePrefix);
+        return executor;
+    }
 }
