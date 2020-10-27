@@ -31,7 +31,7 @@ public class BinaryGap {
 					gap =0;
 				}
 				if (i == (arr1.length -1) && numOnes > 1 && numZeroes >= 1) {
-					gap =gap;
+					continue;
 				}
 			}
 		}
