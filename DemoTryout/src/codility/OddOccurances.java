@@ -1,9 +1,9 @@
-package frequency;
+package codility;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class frequencyDemoInteger {
+public class OddOccurances {
 
 	public static void main(String[] args) {
 		
@@ -17,7 +17,6 @@ public class frequencyDemoInteger {
 				myMap.put(element, 1);  
 			}
 		}
-		System.out.println(myMap); 
 		for (Map.Entry<Integer, Integer> entry : myMap.entrySet()) {
 			 if (entry.getValue()%2 != 0) {
 				 result = entry.getKey();
