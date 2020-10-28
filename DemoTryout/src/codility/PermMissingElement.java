@@ -15,7 +15,7 @@ public class PermMissingElement {
 			}else {
 				break; 
 			}
-		}
+		} 
 		System.out.println(min);
 	}
 
