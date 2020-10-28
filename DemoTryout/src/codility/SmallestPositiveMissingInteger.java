@@ -10,7 +10,7 @@ public class SmallestPositiveMissingInteger {
 		int min =1;
 		a = Arrays.stream(a).filter(x -> x > 0).sorted().distinct().toArray();
 
-		for (int i : a) {
+		for (int i : a) { 
 			if (min == i) {
 				min++;
 			}else {

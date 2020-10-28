@@ -2,7 +2,7 @@ package codility;
 
 import java.util.Arrays;
 
-public class PermMissingElement {
+public class PermMissingElement { 
 
 	public static void main(String[] args) {
 		int[] a = {2, 3, 1, 5};  
