@@ -17,6 +17,7 @@ public class OddOccurances {
 				myMap.put(element, 1);  
 			}
 		}
+		
 		for (Map.Entry<Integer, Integer> entry : myMap.entrySet()) {
 			 if (entry.getValue()%2 != 0) {
 				 result = entry.getKey();
