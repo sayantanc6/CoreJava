@@ -1,11 +1,6 @@
 package codility;
 
 public class TapeEquilibrium {
-	
-	/*
-	 * source of information :-
-	 * https://github.com/Mickey0521/Codility/blob/master/TapeEquilibrium.java
-	 * */
 
 	public static void main(String[] args) {
 		int[] A= {3,1,2,4,3};
