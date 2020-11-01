@@ -1,5 +1,7 @@
 package codility;
 
+import java.util.Arrays;
+
 public class CyclicRotation {
 
 	public static void main(String[] args) {
@@ -20,8 +22,6 @@ public class CyclicRotation {
 			}
 		}
 		
-		for (int i : output) {
-			System.out.print(i+" "); 
-		}
+		System.out.println(Arrays.toString(output)); 
 	}
 }
