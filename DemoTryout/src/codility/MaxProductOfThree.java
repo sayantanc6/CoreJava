@@ -1,10 +1,10 @@
-package codility;
+package codility; 
 
 import java.util.Arrays;
 import java.util.Comparator;
 
 public class MaxProductOfThree {
-
+ 
 	public static void main(String[] args) {
 		int[] A = {-5, -6, -4, -7, -10};    
 		int result =0;
