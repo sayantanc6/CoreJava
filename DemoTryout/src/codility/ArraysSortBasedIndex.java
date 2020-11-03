@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections; 
 import java.util.List;
 
-public class ArraysSortBasedIndex {
+public class ArraysSortBasedIndex { 
 
 	public static void main(String[] args) {
 		int[] A = {1,6,5,7,9};
