@@ -1,7 +1,6 @@
 package codility;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,34 +10,67 @@ public class ArraysSortBasedMultiple {
 		char[] letters = {'b','a','d','c'};
 		String[] words = {"ball","apple","dog","cat"}; 
 		int[] alphabeticalorder = {2,1,4,3};
-		char[] sortedletters = new char[letters.length];
-		int[] sortedalphabeticalorder = new int[letters.length];
-		String[] sortedwords = new String[letters.length];
-		List<Character> lettersList = new ArrayList<>();
-		List<Character> sortedlettersList = new ArrayList<>();
-		int current_index =0;
-		int sorted_extracted_index =0;
 		
-		for (int i = 0; i < letters.length; i++) 
-			lettersList.add(letters[i]);
+		List<Myobject> oMyobjects = new ArrayList<>();
 		
-		sortedlettersList.addAll(lettersList);
-		Collections.sort(sortedlettersList); 
+		for (int i = 0; i < alphabeticalorder.length; i++) 
+			oMyobjects.add(new Myobject(letters[i], words[i], alphabeticalorder[i]));
 		
-		for (Character character : sortedlettersList) { 
-			sorted_extracted_index = lettersList.indexOf(character);
-			current_index = sortedlettersList.indexOf(character);
-			sortedletters[sorted_extracted_index] = letters[current_index];
-			sortedwords[sorted_extracted_index] = words[current_index]; 
-			sortedalphabeticalorder[sorted_extracted_index] = alphabeticalorder[current_index];    
-		}
+		System.out.println("before : ");
+		for (int i = 0; i < alphabeticalorder.length; i++) 
+			System.out.println(oMyobjects.get(i));
 		
-		System.out.println("letters : "+Arrays.toString(letters)); 
-		System.out.println("words : "+Arrays.toString(words)); 
-		System.out.println("alphabetical order : "+Arrays.toString(alphabeticalorder));
-		System.out.println("sorted letters : "+Arrays.toString(sortedletters)); 
-		System.out.println("sorted words : "+Arrays.toString(sortedwords));
-		System.out.println("sorted alphabetical order : "+Arrays.toString(sortedalphabeticalorder));
+		Collections.sort(oMyobjects);
+		
+		System.out.println("after : ");
+		for (int i = 0; i < alphabeticalorder.length; i++) 
+			System.out.println(oMyobjects.get(i)); 
 	}
+	
+	public static class Myobject implements Comparable<Myobject> {
+		char letter;
+		String word;
+		int alphabetical;
+		
+		public Myobject(char letter, String word, int alphabetical) {
+			super();
+			this.letter = letter;
+			this.word = word;
+			this.alphabetical = alphabetical;
+		}
 
+		public char getLetter() {
+			return letter;
+		}
+
+		public void setLetter(char letter) {
+			this.letter = letter;
+		}
+
+		public String getWord() {
+			return word;
+		}
+
+		public void setWord(String word) {
+			this.word = word;
+		}
+
+		public int getAlphabetical() {
+			return alphabetical;
+		}
+
+		public void setAlphabetical(int alphabetical) {
+			this.alphabetical = alphabetical;
+		}
+
+		@Override
+		public int compareTo(Myobject o) {
+			return this.letter - o.letter;
+		}
+
+		@Override
+		public String toString() {
+			return "Myobject [letter=" + letter + ", word=" + word + ", alphabetical=" + alphabetical + "]";
+		}
+	}
 }
