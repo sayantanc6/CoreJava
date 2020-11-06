@@ -29,7 +29,7 @@ public class Fish {
 			countAlive = B.length;
 		}
 		
-		if (tmp.indexOf('1') == -1) {
+		if (tmp.indexOf('1') == -1) { 
 			alldirsame = true;
 			countAlive = B.length;
 		}
