@@ -1,6 +1,10 @@
 package codility;
 
 public class MaxProfit {
+	
+	/*
+	 * solution : https://github.com/Mickey0521/Codility/blob/master/MaxProfit.java
+	 * */
 
 	public static void main(String[] args) {
 		int[] A = {8, 9, 3, 6, 1, 2}; 
