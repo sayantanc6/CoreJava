@@ -1,4 +1,4 @@
-package inheritancemapping;
+package dto.inheritancemapping;
 
 public class EntryPoint {
 	
@@ -27,7 +27,7 @@ public class EntryPoint {
 		source.setFirstSubname("sayantansub");
 		source.setLastSubname("chatterjeesub"); 
 		
-		ModelMapper mapper = new ModelMapper();
+		InheritanceMapper mapper = new InheritanceMapper();
 		mapper.objectToInheritence(source,sub,sup);
 		System.out.println(source);  
 		System.out.println(sub); 

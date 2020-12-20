@@ -8,7 +8,7 @@ public class SeatingArrangement {
         int seatingPosition1 = 0;
         int seatingPosition2 =0;
         int rowNum =0;
-        String seattype = ""; 
+        String seattype = "";
         int offset =0;
         int b=0; 
 		rowNum = Math.abs(N/6); 

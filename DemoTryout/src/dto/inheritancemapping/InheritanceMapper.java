@@ -1,4 +1,4 @@
-package inheritancemapping;
+package dto.inheritancemapping;
 
 import java.lang.reflect.Field;
 
@@ -6,7 +6,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
-public class ModelMapper {
+public class InheritanceMapper {
 	
 	public Object inheritanceToObject(Object baseObject,Object mappedObject) {
 		Field[] mappedFields = mappedObject.getClass().getDeclaredFields();

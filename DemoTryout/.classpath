@@ -20,5 +20,8 @@
 	<classpathentry kind="lib" path="D:/softwares/library/jjwt-jackson-0.11.2.jar"/>
 	<classpathentry kind="lib" path="D:/softwares/library/jackson-annotations-2.11.3.jar"/>
 	<classpathentry kind="lib" path="D:/softwares/library/jakarta.xml.bind-api-3.0.0-RC3.jar"/>
+	<classpathentry kind="lib" path="D:/softwares/library/log4j-1.2.16.jar/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="D:/softwares/library/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/softwares/library/jcl-over-slf4j-2.0.0-alpha1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,4 +1,4 @@
-package inheritancemapping;
+package dto.inheritancemapping;
 
 public class Sub extends Super {
 
